@@ -983,7 +983,6 @@ section[id]{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 56px)}
             <div class="chips" role="radiogroup" aria-labelledby="bTrussL">
               <input type="radio" name="btruss" id="bt2" value="black" checked><label for="bt2">Чёрная</label>
             </div>
-            <label class="ckl bck"><input type="checkbox" id="bLegs" checked><span>Задние опоры</span></label>
           </div>
           <button type="button" class="btn btn-red" id="bSend" style="justify-self:start">Рассчитать этот баннер</button>
         </form>
@@ -1817,7 +1816,7 @@ window.I18N=(function(){
     if(p==='custom'){st.w=numM($('bW').value,st.w);st.h=numM($('bH').value,st.h)}
     else{const a=p.split('x');st.w=+a[0];st.h=+a[1];$('bW').value=fmtM(st.w);$('bH').value=fmtM(st.h)}
     st.art=val('bart');$('bWallOpts').hidden=st.art!=='wall';$('bOwnOpts').hidden=st.art!=='own';
-    st.text=$('bText').value;st.bg=val('bbg');st.truss=val('btruss');st.legs=$('bLegs').checked;
+    st.text=$('bText').value;st.bg=val('bbg');st.truss=val('btruss');st.legs=true;
     build();
   }
   $('bForm').addEventListener('input',read);$('bForm').addEventListener('change',read);
