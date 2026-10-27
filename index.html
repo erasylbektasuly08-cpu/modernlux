@@ -1780,16 +1780,17 @@ window.I18N=(function(){
     const fl=face('bfloor',(W+5)*k,(LEG+4.5)*k,P(0,-.002,-(LEG+.2)/2+.3)+' rotateX(90deg)');fl.style.backgroundSize=(.5*k)+'px '+(.5*k)+'px,'+(.5*k)+'px '+(.5*k)+'px,100% 100%';
     face('bshadow',(W+.8)*k,(LEG+1)*k,P(0,.002,-(LEG+1)/2+.4)+' rotateX(90deg)');
     const own=st.art==='own'&&st.img,img=own?st.img:wallArt(),wrap=own?'#ECECF0':st.bg;
-    const zf=T/2+.03,cy=H/2,zc=zf-D/2;
+    // зазор между натяжкой и фермой: не меньше 2,5 px, чтобы грани не «мерцали» (z-fighting) на любом размере
+    const G=Math.max(.02,2.5/k),zf=T/2+.03,zb=-T/2-G,Dw=zf-zb,zc=(zf+zb)/2,cy=H/2,Hw=H+G;
     // front print with a soft sheen
-    const f=face('bface bsheen',(W+.012)*k,(H+.006)*k,P(0,cy+.003,zf));f.style.backgroundImage='url("'+img+'")';
+    const f=face('bface bsheen',(W+2*G)*k,Hw*k,P(0,Hw/2,zf));f.style.backgroundImage='url("'+img+'")';
     face('bback',W*k,H*k,P(0,cy,zf-.025)+' rotateY(180deg)');
     // the print wraps around the frame: sides and top
-    [[-W/2-.006,-90],[W/2+.006,90]].forEach(([x,a])=>{const d=face('bside',D*k,(H+.006)*k,P(x,cy+.003,zc)+' rotateY('+a+'deg)');d.style.backgroundColor=wrap});
-    const tp=face('btop',(W+.012)*k,D*k,P(0,H+.006,zc)+' rotateX(90deg)');tp.style.backgroundColor=wrap;
+    [[-W/2-G,-90],[W/2+G,90]].forEach(([x,a])=>{const d=face('bside',Dw*k,Hw*k,P(x,Hw/2,zc)+' rotateY('+a+'deg)');d.style.backgroundColor=wrap});
+    const tp=face('btop',(W+2*G)*k,Dw*k,P(0,Hw,zc)+' rotateX(90deg)');tp.style.backgroundColor=wrap;
     // reflection on the glossy floor
-    const m=face('bface bmirror',W*k,H*k,P(0,-cy,zf)+' scaleY(-1)');m.style.backgroundImage='url("'+img+'")';
-    [[-W/2-.006,-90],[W/2+.006,90]].forEach(([x,a])=>{const d=face('bside bmirror',D*k,H*k,P(x,-cy,zc)+' rotateY('+a+'deg) scaleY(-1)');d.style.backgroundColor=wrap});
+    const m=face('bface bmirror',(W+2*G)*k,Hw*k,P(0,-Hw/2,zf)+' scaleY(-1)');m.style.backgroundImage='url("'+img+'")';
+    [[-W/2-G,-90],[W/2+G,90]].forEach(([x,a])=>{const d=face('bside bmirror',Dw*k,Hw*k,P(x,-Hw/2,zc)+' rotateY('+a+'deg) scaleY(-1)');d.style.backgroundColor=wrap});
     // truss frame behind the print
     const xl=-(W/2-T/2),xr=W/2-T/2;
     trussY(xl,0,H,0);trussY(xr,0,H,0);
